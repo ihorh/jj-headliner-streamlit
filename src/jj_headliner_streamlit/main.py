@@ -34,10 +34,10 @@ if not DATA_FILE.exists():
         GOOGLE_APPLICATION_CREDENTIALS.parent.mkdir(parents=True, exist_ok=True)
         with GOOGLE_APPLICATION_CREDENTIALS.open("w") as f:
             gcp_creds = st.secrets[GOOGLE_APPLICATION_CREDENTIALS_SECRET_KEY]
+            gcp_creds = gcp_creds.replace("\n", "\\n")
             f.write(gcp_creds)
     print(f"[!!!!]Writing {GOOGLE_APPLICATION_CREDENTIALS}")
     print(GOOGLE_APPLICATION_CREDENTIALS.read_text()[:200])
-    print("type(gcp_creds=", type(gcp_creds))
     github_token = st.secrets[GITHUB_TOKEN_SECRET_KEY]
     with (
         dvc.api.open(
