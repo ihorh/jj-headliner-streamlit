@@ -33,12 +33,7 @@ if not DATA_FILE.exists():
     if not GOOGLE_APPLICATION_CREDENTIALS.exists():
         GOOGLE_APPLICATION_CREDENTIALS.parent.mkdir(parents=True, exist_ok=True)
         with GOOGLE_APPLICATION_CREDENTIALS.open("w", newline="") as f:
-            gcp_creds = st.secrets[GOOGLE_APPLICATION_CREDENTIALS_SECRET_KEY]
-            if not isinstance(gcp_creds, str):
-                msg = f"Expected str, got {type(gcp_creds)}"
-                raise TypeError(msg)
-            # gcp_creds.encode("utf-8")
-            f.write(gcp_creds)
+            f.write(st.secrets[GOOGLE_APPLICATION_CREDENTIALS_SECRET_KEY])
     print(f"[!!!!]Writing {GOOGLE_APPLICATION_CREDENTIALS}")
     print(GOOGLE_APPLICATION_CREDENTIALS.read_text()[:200])
     github_token = st.secrets[GITHUB_TOKEN_SECRET_KEY]
@@ -46,6 +41,7 @@ if not DATA_FILE.exists():
         dvc.api.open(
             REMOTE_FILE,
             get_github_repo_url(github_token),
+            mode="rb",
             remote_config={
                 "credentialpath": GOOGLE_APPLICATION_CREDENTIALS.as_posix(),
             },
