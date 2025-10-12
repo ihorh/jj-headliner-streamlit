@@ -1,0 +1,4 @@
+[core]
+    remote = gcp-gs
+['remote "gcp-gs"']
+    url = gs://jj-headliner-dvc-registry

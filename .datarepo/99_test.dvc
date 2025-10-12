@@ -1,0 +1,14 @@
+md5: 82efd617cb7e8d6555f9a096f78740d9
+frozen: true
+deps:
+- path: .datarepo/99_test
+  repo:
+    url: https://github.com/ihorh/jj-headliner.git
+    rev_lock: 6d3a630c8a5e4347e816d496e13848e3fc9a4100
+    remote: gcp-gs
+outs:
+- md5: 6fd8edbc7b444ea658cfcf1772e146a9.dir
+  size: 377607
+  nfiles: 1
+  hash: md5
+  path: 99_test
