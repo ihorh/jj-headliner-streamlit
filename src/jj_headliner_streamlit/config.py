@@ -6,7 +6,7 @@ import jj_headliner_streamlit
 PROJECT_ROOT: Final[Path] = Path(jj_headliner_streamlit.__file__).parent.parent.parent
 DD: Final[Path] = PROJECT_ROOT / ".datarepo"
 
-_DVC_IMPORT_REPO: Final[str] = "https://oauth2:{github_token}github.com/ihorh/jj-headliner.git"
+_DVC_IMPORT_REPO: Final[str] = "https://oauth2:{github_token}@github.com/ihorh/jj-headliner.git"
 DVC_IMPORT_PATH: Final[str] = ".datarepo/99_test"
 
 GITHUB_TOKEN_SECRET_KEY: Final[str] = "GITHUB_TOKEN"  # noqa: S105
