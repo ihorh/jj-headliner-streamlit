@@ -12,9 +12,10 @@ import streamlit as st
 from jj_headliner_streamlit.config import (
     DD,
     DVC_IMPORT_PATH,
-    DVC_IMPORT_REPO,
+    GITHUB_TOKEN_SECRET_KEY,
     GOOGLE_APPLICATION_CREDENTIALS,
     GOOGLE_APPLICATION_CREDENTIALS_SECRET_KEY,
+    get_github_repo_url,
 )
 
 if TYPE_CHECKING:
@@ -31,7 +32,11 @@ if not DATA_FILE.exists():
         GOOGLE_APPLICATION_CREDENTIALS.parent.mkdir(parents=True, exist_ok=True)
         with GOOGLE_APPLICATION_CREDENTIALS.open("w") as f:
             f.write(st.secrets[GOOGLE_APPLICATION_CREDENTIALS_SECRET_KEY])
-    with dvc.api.open(DVC_IMPORT_PATH, DVC_IMPORT_REPO, remote="gcp-gs") as src, DATA_FILE.open("wb") as dst:
+    github_token = st.secrets[GITHUB_TOKEN_SECRET_KEY]
+    with (
+        dvc.api.open(DVC_IMPORT_PATH, get_github_repo_url(github_token), remote="gcp-gs") as src,
+        DATA_FILE.open("wb") as dst,
+    ):
         shutil.copyfileobj(src, dst)
 
 st.title("Hello Streamlit!")
