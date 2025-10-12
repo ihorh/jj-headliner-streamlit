@@ -38,7 +38,7 @@ if not DATA_FILE.exists():
             REMOTE_FILE,
             get_github_repo_url(github_token),
             remote_config={
-                "credentialpath": GOOGLE_APPLICATION_CREDENTIALS,
+                "credentialpath": GOOGLE_APPLICATION_CREDENTIALS.as_posix(),
             },
         ) as src,
         DATA_FILE.open("wb") as dst,
