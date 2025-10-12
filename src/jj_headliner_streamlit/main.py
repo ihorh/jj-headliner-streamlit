@@ -34,7 +34,7 @@ if not DATA_FILE.exists():
         GOOGLE_APPLICATION_CREDENTIALS.parent.mkdir(parents=True, exist_ok=True)
         with GOOGLE_APPLICATION_CREDENTIALS.open("wb") as f:
             gcp_creds = st.secrets[GOOGLE_APPLICATION_CREDENTIALS_SECRET_KEY]
-            f.write(gcp_creds)
+            f.write(gcp_creds.encode("utf-8"))
     print(f"[!!!!]Writing {GOOGLE_APPLICATION_CREDENTIALS}")
     print(GOOGLE_APPLICATION_CREDENTIALS.read_text()[:200])
     github_token = st.secrets[GITHUB_TOKEN_SECRET_KEY]
