@@ -32,9 +32,8 @@ if not DATA_FILE.exists():
         GOOGLE_APPLICATION_CREDENTIALS.unlink()
     if not GOOGLE_APPLICATION_CREDENTIALS.exists():
         GOOGLE_APPLICATION_CREDENTIALS.parent.mkdir(parents=True, exist_ok=True)
-        with GOOGLE_APPLICATION_CREDENTIALS.open("w") as f:
+        with GOOGLE_APPLICATION_CREDENTIALS.open("wb") as f:
             gcp_creds = st.secrets[GOOGLE_APPLICATION_CREDENTIALS_SECRET_KEY]
-            gcp_creds = gcp_creds.replace("\\n", "\\\\n")
             f.write(gcp_creds)
     print(f"[!!!!]Writing {GOOGLE_APPLICATION_CREDENTIALS}")
     print(GOOGLE_APPLICATION_CREDENTIALS.read_text()[:200])
