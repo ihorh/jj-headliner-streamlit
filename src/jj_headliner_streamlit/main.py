@@ -34,7 +34,7 @@ if not DATA_FILE.exists():
         GOOGLE_APPLICATION_CREDENTIALS.parent.mkdir(parents=True, exist_ok=True)
         with GOOGLE_APPLICATION_CREDENTIALS.open("wb") as f:
             gcp_creds = st.secrets[GOOGLE_APPLICATION_CREDENTIALS_SECRET_KEY]
-            if gcp_creds is not str:
+            if not isinstance(gcp_creds, str):
                 msg = f"Expected str, got {type(gcp_creds)}"
                 raise TypeError(msg)
             f.write(gcp_creds.encode("utf-8"))
