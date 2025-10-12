@@ -23,7 +23,7 @@ if TYPE_CHECKING:
 
 LOG = logging.getLogger(__name__)
 
-
+REMOTE_FILE: Final[str] = f"{DVC_IMPORT_PATH}/headlines/test-data-set.parquet"
 DATA_FILE: Final[Path] = DD / "99_test" / "headlines" / "test-data-set.parquet"
 
 if not DATA_FILE.exists():
@@ -34,7 +34,7 @@ if not DATA_FILE.exists():
             f.write(st.secrets[GOOGLE_APPLICATION_CREDENTIALS_SECRET_KEY])
     github_token = st.secrets[GITHUB_TOKEN_SECRET_KEY]
     with (
-        dvc.api.open(DVC_IMPORT_PATH, get_github_repo_url(github_token), remote="gcp-gs") as src,
+        dvc.api.open(REMOTE_FILE, get_github_repo_url(github_token), remote="gcp-gs") as src,
         DATA_FILE.open("wb") as dst,
     ):
         shutil.copyfileobj(src, dst)
