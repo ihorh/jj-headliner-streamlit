@@ -24,6 +24,7 @@ DATA_FILE: Final[Path] = DD / "99_test" / "headlines" / "test-data-set.parquet"
 
 if not DATA_FILE.exists():
     if not GOOGLE_APPLICATION_CREDENTIALS.exists():
+        GOOGLE_APPLICATION_CREDENTIALS.parent.mkdir(parents=True, exist_ok=True)
         with GOOGLE_APPLICATION_CREDENTIALS.open("w") as f:
             f.write(st.secrets[GOOGLE_APPLICATION_CREDENTIALS_SECRET_KEY])
     subprocess.run(["uv", "run", "dvc", "update", DVC_IMPORT_PATH], check=True)  # noqa: S603, S607
