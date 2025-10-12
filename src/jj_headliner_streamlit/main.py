@@ -1,54 +1,24 @@
 from __future__ import annotations
 
-import logging
-import shutil
 from typing import TYPE_CHECKING, Final
 
-import dvc
-import dvc.api
 import pandas as pd
 import streamlit as st
 
 from jj_headliner_streamlit.config import (
     DD,
     DVC_IMPORT_PATH,
-    GITHUB_TOKEN_SECRET_KEY,
-    GOOGLE_APPLICATION_CREDENTIALS,
-    GOOGLE_APPLICATION_CREDENTIALS_SECRET_KEY,
-    get_github_repo_url,
 )
+from jj_headliner_streamlit.data import dvc_import_data_file
 
 if TYPE_CHECKING:
     from pathlib import Path
 
-LOG = logging.getLogger(__name__)
 
-REMOTE_FILE: Final[str] = f"{DVC_IMPORT_PATH}/headlines/test-data-set.parquet"
-DATA_FILE: Final[Path] = DD / "99_test" / "headlines" / "test-data-set.parquet"
-
-if not DATA_FILE.exists():
-    DATA_FILE.parent.mkdir(parents=True, exist_ok=True)
-    if GOOGLE_APPLICATION_CREDENTIALS.exists():
-        GOOGLE_APPLICATION_CREDENTIALS.unlink()
-    if not GOOGLE_APPLICATION_CREDENTIALS.exists():
-        GOOGLE_APPLICATION_CREDENTIALS.parent.mkdir(parents=True, exist_ok=True)
-        with GOOGLE_APPLICATION_CREDENTIALS.open("w", newline="") as f:
-            f.write(st.secrets[GOOGLE_APPLICATION_CREDENTIALS_SECRET_KEY])
-    print(f"[!!!!]Writing {GOOGLE_APPLICATION_CREDENTIALS}")
-    print(GOOGLE_APPLICATION_CREDENTIALS.read_text()[:200])
-    github_token = st.secrets[GITHUB_TOKEN_SECRET_KEY]
-    with (
-        dvc.api.open(
-            REMOTE_FILE,
-            get_github_repo_url(github_token),
-            mode="rb",
-            remote_config={
-                "credentialpath": GOOGLE_APPLICATION_CREDENTIALS.as_posix(),
-            },
-        ) as src,
-        DATA_FILE.open("wb") as dst,
-    ):
-        shutil.copyfileobj(src, dst)
+DATA_FILE: Final[Path] = dvc_import_data_file(
+    DD / "99_test" / "headlines" / "test-data-set.parquet",
+    f"{DVC_IMPORT_PATH}/headlines/test-data-set.parquet",
+)
 
 st.title("Hello Streamlit!")
 
