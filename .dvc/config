@@ -2,3 +2,4 @@
     remote = gcp-gs
 ['remote "gcp-gs"']
     url = gs://jj-headliner-dvc-registry
+    credentialpath = ../config/jj-headliner-dvc-registry-read.secret.json
